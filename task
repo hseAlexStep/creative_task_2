@@ -1,0 +1,94 @@
+Условие:  
+В классе есть два списка интересов: один список для мальчиков, другой — для девочек. 
+Вам нужно определить, какие интересы есть у обоих полов, а также вывести их в порядке "приоритета". 
+(Приоритет определяется по количеству упоминаний интереса в каждом из списков. Если интерес упоминается несколько раз, он считается более приоритетным.)
+
+Формат ввода:  
+• Первая строка содержит целое число n (1 ≤ n ≤ 100) — количество интересов у мальчиков.
+• Далее следуют n строк, каждая из которых содержит название интереса у мальчиков.
+• Затем следует целое число m (1 ≤ m ≤ 100) — количество интересов у девочек.
+• Далее следуют m строк, каждая из которых содержит название интереса у девочек.
+
+Формат вывода:  
+
+• Вывести названия интересов, которые есть у обоих полов, через запятую, отсортированные по приоритету (от большего к меньшему). Если таких интересов нет, вывести сообщение "Нет общих интересов".
+
+Тест 1:
+Ввод:
+5
+Футбол
+Компьютеры
+Рисование
+Компьютеры
+Футбол
+4
+Рисование
+Музыка
+Компьютеры
+Танцы
+
+Вывод:
+Компьютеры, Футбол, Рисование
+
+Тест 2:
+Ввод:
+2
+Сноуборд
+Книги
+3
+Гитара
+Путешествия
+Спорт
+
+Вывод:
+Нет общих интересов
+
+
+
+
+
+n = int(input())
+boys_interests = []
+
+for _ in range(n):
+    interest = input().strip()
+    boys_interests.append(interest)
+
+m = int(input())
+girls_interests = []
+
+for _ in range(m):
+    interest = input().strip()
+    girls_interests.append(interest)
+
+priority = {}
+
+for interest in boys_interests:
+    if interest in priority:
+        priority[interest][0] += 1
+    else:
+        priority[interest] = [1, 0]
+
+
+for interest in girls_interests:
+    if interest in priority:
+        priority[interest][1] += 1  
+    else:
+        priority[interest] = [0, 1]
+
+common_interests = []
+
+
+for interest, counts in priority.items():
+    if counts[0] > 0 and counts[1] > 0: 
+        common_interests.append((interest, counts[0] + counts[1]))  
+
+
+common_interests.sort(key=lambda x: x[1], reverse=True)
+
+
+if common_interests:
+    result = [interest for interest, _ in common_interests]
+    print(", ".join(result))
+else:
+    print("Нет общих интересов")
